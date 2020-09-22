@@ -11,8 +11,11 @@ let client: KlasaClient = new KlasaClient(applicationSettings.botOptions);
 client.on("messageReactionAdd", async (messageReaction: MessageReaction, user: KlasaUser) => {
     if (user.bot) return;
 
-    if (!(Array.from([Emoji.Twitter, Emoji.Facebook, Emoji.Instagram, Emoji.Reddit]) as string[]).includes(messageReaction.emoji.id)) return;
-    
+    if (
+        !(Array.from([Emoji.Twitter, Emoji.Facebook, Emoji.Instagram, Emoji.Reddit]) as string[])
+            .includes(messageReaction.emoji.id)
+    ) return;
+
     const attachment = messageReaction.message.attachments.first();
     if (!attachment) return;
 
@@ -24,10 +27,11 @@ client.on("messageReactionAdd", async (messageReaction: MessageReaction, user: K
         embed.setDescription(
             `You don't have permission to upload content. You need the Publisher role.`
         );
-        return channel.send(embed);
+        // return messageReaction.message.author.send(embed);
+        return user.send(embed);
     }
 
-    switch(messageReaction.emoji.id) {
+    switch (messageReaction.emoji.id) {
         case Emoji.Twitter:
 
             const attachmentBase64 = await imageToBase64(attachment.url);
@@ -63,7 +67,7 @@ client.on("messageReactionAdd", async (messageReaction: MessageReaction, user: K
         case Emoji.Reddit:
 
             const reddit = new Reddit(applicationSettings.reddit);
-            
+
             await reddit.post('/api/submit', {
                 sr: 'MoreCuteAnimals',
                 kind: 'image',
@@ -75,11 +79,11 @@ client.on("messageReactionAdd", async (messageReaction: MessageReaction, user: K
                 embed.setColor(Color.Red);
                 embed.setDescription(`Your [message](${messageReaction.message.url}) failed to upload to Reddit.`);
             })
-            .then((response) => {
-                console.log(response);
-                embed.setColor(Color.Green);
-                embed.setDescription(`Your [message](${messageReaction.message.url}) was successfully [uploaded](${(response as any).json.data.url}) to Reddit.`);
-            });
+                .then((response) => {
+                    console.log(response);
+                    embed.setColor(Color.Green);
+                    embed.setDescription(`Your [message](${messageReaction.message.url}) was successfully [uploaded](${(response as any).json.data.url}) to Reddit.`);
+                });
 
             return channel.send(embed);
         default:
@@ -167,7 +171,7 @@ client.on("messageReactionAdd", async (messageReaction: MessageReaction, user: K
     //     appSecret: 'SJGSkVrOJROsj249VhAirl0QuIo',
     //     userAgent: 'MyApp/1.0.0 (http://example.com)'
     // });
-    
+
     // console.log("Attempting to upload to Reddit...");
     // await reddit.post('/api/submit', {
     //     sr: 'MoreCuteAnimals',
