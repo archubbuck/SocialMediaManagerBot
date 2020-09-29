@@ -6,13 +6,10 @@ class ApplicationSettings {
     botOptions: KlasaClientOptions;
     twitter: TwitterSettings;
     reddit: RedditSettings;
-
-    constructor(token: string, usageDelim: string, botOptions: KlasaClientOptions, twitter: TwitterSettings, reddit: RedditSettings) {
-        this.token = token;
-        this.usageDelim = usageDelim;
-        this.botOptions = botOptions;
-        this.twitter = twitter;
-    }
+    emojis: Emojis;
+    colors: Colors;
+    channels: Channels;
+    roles: Roles;
 }
 
 class TwitterSettings {
@@ -20,13 +17,6 @@ class TwitterSettings {
     consumer_secret: string;
     access_token_key: string;
     access_token_secret: string;
-
-    constructor(consumer_key: string, consumer_secret: string, access_token_key: string, access_token_secret: string) {
-        this.consumer_key = consumer_key;
-        this.consumer_secret = consumer_secret;
-        this.access_token_key = access_token_key;
-        this.access_token_secret = access_token_secret;
-    }
 }
 
 class RedditSettings {
@@ -35,14 +25,32 @@ class RedditSettings {
     appId: string;
     appSecret: string;
     userAgent: string;
+}
 
-    constructor(username: string, password: string, appId: string, appSecret: string, userAgent: string) {
-        this.username = username;
-        this.password = password;
-        this.appId = appId;
-        this.appSecret = appSecret;
-        this.userAgent = userAgent;
-    }
+class Emojis {
+    upload: string;
+    twitter: string;
+    facebook: string;
+    instagram: string;
+    reddit: string;
+}
+
+class Colors {
+    green: string;
+    yellow: string;
+    orange: string;
+    red: string;
+}
+
+class Channels {
+    welcome: string;
+    goodbye: string;
+}
+
+class Roles {
+    publisher: string;
+    greeter: string;
+    outreachTeam: string;
 }
 
 const applicationSettings: ApplicationSettings = require('../appsettings.json');
