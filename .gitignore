@@ -28,6 +28,6 @@ node_modules/
 .eslintcache
 
 # Application specific
-appsettings.json
+appsettings*.json
 **/.DS_Store
 package-lock.json
