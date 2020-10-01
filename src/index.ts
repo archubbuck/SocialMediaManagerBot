@@ -96,12 +96,15 @@ client.on("messageReactionAdd", async (messageReaction: MessageReaction, user: K
 });
 
 client.on("guildMemberAdd", async member => {
+    const members = await member.guild.members.fetch();
     const channel = member.guild.channels.cache.get(applicationSettings.channels.welcome) as TextChannel;
-    const position = member.guild.members.cache.sorted((memberA, memberB) => memberA.joinedTimestamp - memberB.joinedTimestamp)
+    // const position = member.guild.members.cache.sorted((memberA, memberB) => memberA.joinedTimestamp - memberB.joinedTimestamp)
+    //     .array().findIndex(m => m.id === member.id) + 1;
+    const position = members.sorted((memberA, memberB) => memberA.joinedTimestamp - memberB.joinedTimestamp)
         .array().findIndex(m => m.id === member.id) + 1;
     const warn = Moment().diff(member.user.createdTimestamp, 'days') < 7;
     await channel.send([
-        `${member.guild.roles.cache.get(applicationSettings.roles.greeter)}, ${member} (${member.user.username}) [ID: ${member.user.id}] has joined the server.`,
+        `${member.guild.roles.cache.get(applicationSettings.roles.greeter)}, ${member} (${member.user.tag}) [ID: ${member.user.id}] has joined the server.`,
         `They are our **${Moment.localeData().ordinal(position)} member**, and joined Discord ${warn ? ":warning: " : ""}**${Moment(member.user.createdTimestamp).fromNow()}**${warn ? " :warning:" : ""}.`,
         `Please give them a warm welcome.`
     ].join(" "), { allowedMentions: { users: [], roles: [ applicationSettings.roles.greeter ] }});
@@ -110,7 +113,7 @@ client.on("guildMemberAdd", async member => {
 client.on("guildMemberRemove", async member => {
     const channel = member.guild.channels.cache.get(applicationSettings.channels.goodbye) as TextChannel;
     await channel.send([
-        `${member.guild.roles.cache.get(applicationSettings.roles.outreachTeam)}, it seems **${member.user}** (${member.user.username}) [ID: ${member.user.id}] has left us.`,
+        `${member.guild.roles.cache.get(applicationSettings.roles.outreachTeam)}, it seems **${member.user}** (${member.user.tag}) [ID: ${member.user.id}] has left us.`,
         `They joined the server **${Moment(member.joinedTimestamp).fromNow()}** and had the following roles: ${member.roles.cache.array().filter(m => m.name !== "@everyone").join(", ")}.`
     ].join(" "), { allowedMentions: { users: [], roles: [ applicationSettings.roles.outreachTeam ] }});
 });
