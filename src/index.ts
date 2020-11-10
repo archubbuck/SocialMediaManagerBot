@@ -73,7 +73,7 @@ client.on("messageReactionAdd", async (messageReaction: MessageReaction, user: K
             const reddit = new Reddit(applicationSettings.reddit);
 
             await reddit.post('/api/submit', {
-                sr: 'MoreCuteAnimals',
+                sr: 'CuteAnimals',
                 kind: 'image',
                 resubmit: true,
                 title: `Posted by ${messageReaction.message.author.username} via Discord`,
