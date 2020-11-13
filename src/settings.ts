@@ -6,6 +6,7 @@ class ApplicationSettings {
     botOptions: KlasaClientOptions;
     twitter: TwitterSettings;
     reddit: RedditSettings;
+    imgur: ImgurSettings;
     emojis: Emojis;
     colors: Colors;
     channels: Channels;
@@ -25,6 +26,12 @@ class RedditSettings {
     appId: string;
     appSecret: string;
     userAgent: string;
+}
+
+class ImgurSettings {
+    username: string;
+    password: string;
+    clientId: string;
 }
 
 class Emojis {

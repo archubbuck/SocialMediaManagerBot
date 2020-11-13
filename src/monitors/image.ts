@@ -7,13 +7,13 @@ export default class extends Monitor {
 	}
 
 	async run(message: KlasaMessage) {
-		
-		const attachment = message.attachments.first();
-		if (!attachment) return;
 
-		await message.react(applicationSettings.emojis.twitter);
-        await message.react(applicationSettings.emojis.facebook);
-        await message.react(applicationSettings.emojis.instagram);
+		const hasImage = message.attachments.size || message.embeds.length;
+		if (!hasImage) return;
+
+		// await message.react(applicationSettings.emojis.twitter);
+        // await message.react(applicationSettings.emojis.facebook);
+        // await message.react(applicationSettings.emojis.instagram);
         await message.react(applicationSettings.emojis.reddit);
 
 		return;
