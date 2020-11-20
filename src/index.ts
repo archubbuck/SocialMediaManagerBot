@@ -98,7 +98,7 @@ client.on("messageReactionAdd", async (messageReaction: MessageReaction, user: K
                 sr: 'CuteAnimals',
                 kind: 'image',
                 resubmit: true,
-                title: title + " #animals #cuteanimals #pets",
+                title: title,
                 url: imgurUrl
             }).then((response) => {
                 console.log(response);
